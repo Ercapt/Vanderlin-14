@@ -10,6 +10,7 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.ContentPack;
+using Robust.Shared.Maths;
 using Robust.Shared.Utility;
 
 namespace Content.Client.UserInterface.Systems.RogueHud.Widgets;
@@ -30,7 +31,6 @@ public sealed partial class RogueHudGui : UIWidget
         RobustXamlLoader.Load(this);
         IoCManager.InjectDependencies(this);
 
-        LayoutContainer.SetAnchorPreset(BackgroundTexture, LayoutContainer.LayoutPreset.Wide);
         BackgroundTexture.Stretch = TextureRect.StretchMode.Scale;
         DollBaseTexture.Stretch = TextureRect.StretchMode.KeepCentered;
         DollZoneHead.Stretch = TextureRect.StretchMode.KeepCentered;
@@ -40,6 +40,13 @@ public sealed partial class RogueHudGui : UIWidget
         DollZoneRLeg.Stretch = TextureRect.StretchMode.KeepCentered;
         DollZoneLLeg.Stretch = TextureRect.StretchMode.KeepCentered;
         EyeTexture.Stretch = TextureRect.StretchMode.KeepCentered;
+
+        // Register virtual 640x480 layout rects for auto-scaling on any screen resolution
+        OverlayPanel.SetVirtualRect(BackgroundTexture, UIBox2.FromDimensions(0, 0, 640, 480));
+        OverlayPanel.SetVirtualRect(DollContainer, UIBox2.FromDimensions(20, 20, 140, 120));
+        OverlayPanel.SetVirtualRect(ActionButtonsContainer, UIBox2.FromDimensions(10, 145, 150, 95));
+        OverlayPanel.SetVirtualRect(HandsPanelContainer, UIBox2.FromDimensions(10, 245, 150, 60));
+        OverlayPanel.SetVirtualRect(EquipmentPanelContainer, UIBox2.FromDimensions(10, 310, 150, 160));
 
         var inventoryUIController = UserInterfaceManager.GetUIController<InventoryUIController>();
         inventoryUIController.RegisterInventoryBarContainer(InventoryHotbar);

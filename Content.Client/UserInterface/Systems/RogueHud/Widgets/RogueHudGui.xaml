@@ -1,21 +1,19 @@
 <widgets:RogueHudGui
     xmlns="https://spacestation14.io"
     xmlns:widgets="clr-namespace:Content.Client.UserInterface.Systems.RogueHud.Widgets"
-    xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+    xmlns:hudControls="clr-namespace:Content.Client.UserInterface.Systems.RogueHud.Controls"
     xmlns:inventory="clr-namespace:Content.Client.UserInterface.Systems.Inventory.Controls"
     xmlns:hands="clr-namespace:Content.Client.UserInterface.Systems.Hands.Controls"
     Name="RogueHud"
     HorizontalExpand="True"
     VerticalExpand="True">
     
-    <LayoutContainer Name="HudContainer" HorizontalExpand="True" VerticalExpand="True">
+    <hudControls:RogueHudOverlayPanel Name="OverlayPanel" HorizontalExpand="True" VerticalExpand="True">
         <!-- Fullscreen Background Mask Texture (640x480 Stone Frame) -->
-        <TextureRect Name="BackgroundTexture"
-                     HorizontalExpand="True"
-                     VerticalExpand="True" />
+        <TextureRect Name="BackgroundTexture" HorizontalExpand="True" VerticalExpand="True" />
 
-        <!-- 1. Gargoyle Targeting Doll (Positioned inside the Top Stone Arch) -->
-        <Control Name="DollContainer" MinWidth="120" MinHeight="120" Margin="30 15 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <!-- 1. Gargoyle Targeting Doll -->
+        <Control Name="DollContainer" MinWidth="120" MinHeight="120">
             <TextureRect Name="DollBaseTexture" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextureRect Name="DollZoneHead" Visible="False" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextureRect Name="DollZoneChest" Visible="False" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -33,17 +31,14 @@
             <Button Name="BtnTargetLLeg" ToolTip="Left Leg" Margin="40 60 20 5" />
         </Control>
 
-        <!-- 2. Controls & Actions Panel (Positioned on the Shelf below the Arch) -->
-        <BoxContainer Orientation="Vertical" Margin="10 145 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            
-            <!-- Row A: Craft, Skills, Eye -->
+        <!-- 2. Action Controls Panel -->
+        <BoxContainer Name="ActionButtonsContainer" Orientation="Vertical">
             <BoxContainer Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextureButton Name="BtnCraft" ToolTip="Craft" MinWidth="42" MinHeight="22" Margin="1" />
                 <TextureButton Name="BtnSkills" ToolTip="Skills" MinWidth="42" MinHeight="22" Margin="1" />
                 <TextureRect Name="EyeTexture" Margin="3 0 0 0" VerticalAlignment="Center" />
             </BoxContainer>
 
-            <!-- Row B: Stances & Move -->
             <BoxContainer Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 2 0 0">
                 <TextureButton Name="BtnRun" ToolTip="Run" MinWidth="34" MinHeight="18" Margin="1" />
                 <TextureButton Name="BtnSneak" ToolTip="Sneak" MinWidth="34" MinHeight="18" Margin="1" />
@@ -51,7 +46,6 @@
                 <TextureButton Name="BtnDodge" ToolTip="Dodge" MinWidth="34" MinHeight="18" Margin="1" />
             </BoxContainer>
 
-            <!-- Row C: Main Combat Commands & Toggle -->
             <BoxContainer Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 2 0 0">
                 <TextureButton Name="BtnFeint" ToolTip="Feint" MinWidth="34" MinHeight="18" Margin="1" />
                 <TextureButton Name="BtnTouch" ToolTip="Touch" MinWidth="34" MinHeight="18" Margin="1" />
@@ -59,7 +53,6 @@
                 <TextureButton Name="BtnCombatToggle" ToolTip="Combat Mode" MinWidth="34" MinHeight="18" Margin="1" />
             </BoxContainer>
 
-            <!-- Row D: Attacks -->
             <BoxContainer Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 2 0 0">
                 <TextureButton Name="BtnGrab" ToolTip="Grab" MinWidth="34" MinHeight="18" Margin="1" />
                 <TextureButton Name="BtnPunch" ToolTip="Punch" MinWidth="34" MinHeight="18" Margin="1" />
@@ -68,8 +61,8 @@
             </BoxContainer>
         </BoxContainer>
 
-        <!-- 3. Active Hands & Drop/Catch (Positioned on the Lower Platform Shelf) -->
-        <BoxContainer Orientation="Horizontal" Margin="10 245 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <!-- 3. Active Hands Container -->
+        <BoxContainer Name="HandsPanelContainer" Orientation="Horizontal">
             <hands:HandsContainer Name="HandContainer" Access="Public" ColumnLimit="2" HorizontalAlignment="Center" />
             <BoxContainer Orientation="Vertical" Margin="5 0 0 0" VerticalAlignment="Center">
                 <TextureButton Name="BtnDrop" ToolTip="Drop" MinWidth="40" MinHeight="18" Margin="1" />
@@ -77,12 +70,12 @@
             </BoxContainer>
         </BoxContainer>
 
-        <!-- 4. Inventory Equipment Slot Grid (Positioned inside the Middle Dark Stone Box) -->
-        <BoxContainer Orientation="Vertical" Margin="10 310 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <!-- 4. Equipment Slots Container -->
+        <BoxContainer Name="EquipmentPanelContainer" Orientation="Vertical">
             <inventory:ItemSlotButtonContainer Name="InventoryHotbar" Access="Public" Visible="True" Columns="3" HorizontalAlignment="Center" />
             <inventory:ItemSlotButtonContainer Name="MainHotbar" Access="Public" Visible="True" SlotGroup="MainHotbar" Columns="3" HorizontalAlignment="Center" Margin="0 2 0 0" />
             <inventory:ItemSlotButtonContainer Name="SecondHotbar" Access="Public" Visible="True" SlotGroup="SecondHotbar" Columns="3" HorizontalAlignment="Center" Margin="0 2 0 0" />
         </BoxContainer>
 
-    </LayoutContainer>
+    </hudControls:RogueHudOverlayPanel>
 </widgets:RogueHudGui>
