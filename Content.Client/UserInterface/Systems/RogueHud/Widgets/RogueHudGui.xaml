@@ -72,7 +72,7 @@
 
         <!-- 4. Equipment Slots Container -->
         <BoxContainer Name="EquipmentPanelContainer" Orientation="Vertical">
-            <inventory:ItemSlotButtonContainer Name="InventoryHotbar" Access="Public" Visible="True" Columns="3" HorizontalAlignment="Center" />
+            <inventory:ItemSlotButtonContainer Name="InventoryHotbar" Access="Public" Visible="True" Columns="5" HorizontalAlignment="Center" />
             <inventory:ItemSlotButtonContainer Name="MainHotbar" Access="Public" Visible="True" SlotGroup="MainHotbar" Columns="3" HorizontalAlignment="Center" Margin="0 2 0 0" />
             <inventory:ItemSlotButtonContainer Name="SecondHotbar" Access="Public" Visible="True" SlotGroup="SecondHotbar" Columns="3" HorizontalAlignment="Center" Margin="0 2 0 0" />
         </BoxContainer>

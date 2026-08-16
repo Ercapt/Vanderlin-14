@@ -41,12 +41,18 @@ public sealed partial class RogueHudGui : UIWidget
         DollZoneLLeg.Stretch = TextureRect.StretchMode.KeepCentered;
         EyeTexture.Stretch = TextureRect.StretchMode.KeepCentered;
 
-        // Register virtual 640x480 layout rects for auto-scaling on any screen resolution
-        OverlayPanel.SetVirtualRect(BackgroundTexture, UIBox2.FromDimensions(0, 0, 640, 480));
-        OverlayPanel.SetVirtualRect(DollContainer, UIBox2.FromDimensions(20, 20, 140, 120));
-        OverlayPanel.SetVirtualRect(ActionButtonsContainer, UIBox2.FromDimensions(10, 145, 150, 95));
-        OverlayPanel.SetVirtualRect(HandsPanelContainer, UIBox2.FromDimensions(10, 245, 150, 60));
-        OverlayPanel.SetVirtualRect(EquipmentPanelContainer, UIBox2.FromDimensions(10, 310, 150, 160));
+        // Register 1:1 pixel layout rects matching the 160x480 tower frame
+        // Tower vertical zones (virtual 160x480):
+        //   Y=0..125   → Gargoyle doll + targeting buttons
+        //   Y=125..230 → Action buttons (craft, skills, run, sneak, combat etc.)
+        //   Y=230..280 → Active hands (L/R) + Drop/Catch
+        //   Y=280..480 → Equipment slots grid (10 inv + 3 main + 3 second = 16 slots, 3 cols)
+        OverlayPanel.BindToBackground(BackgroundTexture, new Vector2(160, 480));
+        OverlayPanel.SetVirtualRect(BackgroundTexture,         UIBox2.FromDimensions(0,   0,   160, 480));
+        OverlayPanel.SetVirtualRect(DollContainer,             UIBox2.FromDimensions(5,   5,   150, 120));
+        OverlayPanel.SetVirtualRect(ActionButtonsContainer,    UIBox2.FromDimensions(2,   128, 156, 100));
+        OverlayPanel.SetVirtualRect(HandsPanelContainer,       UIBox2.FromDimensions(2,   230, 156, 48));
+        OverlayPanel.SetVirtualRect(EquipmentPanelContainer,   UIBox2.FromDimensions(4,   280, 152, 196));
 
         var inventoryUIController = UserInterfaceManager.GetUIController<InventoryUIController>();
         inventoryUIController.RegisterInventoryBarContainer(InventoryHotbar);
@@ -57,6 +63,12 @@ public sealed partial class RogueHudGui : UIWidget
 
         BtnCombatToggle.OnPressed += _ => OnCombatTogglePressed?.Invoke();
         BtnDrop.OnPressed += _ => OnDropPressed?.Invoke();
+    }
+
+    protected override void Resized()
+    {
+        base.Resized();
+        OverlayPanel.UpdateFromBackground(BackgroundTexture);
     }
 
     private void InitializeTargetButtonOpacities()
@@ -74,8 +86,8 @@ public sealed partial class RogueHudGui : UIWidget
     {
         try
         {
-            // Background Frame (human state)
-            if (_resCache.TryGetResource<RSIResource>(new ResPath("/Textures/Interface/RogueHud/roguehudback2.rsi"), out var backRsi))
+            // Background Tower Frame (human state) — 160x480 tower only
+            if (_resCache.TryGetResource<RSIResource>(new ResPath("/Textures/Interface/RogueHud/roguehudtower.rsi"), out var backRsi))
             {
                 if (backRsi.RSI.TryGetState("human", out var humanState))
                 {

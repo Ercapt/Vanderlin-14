@@ -103,6 +103,11 @@ public sealed partial class InventoryUIController : UIController, IOnStateEntere
     public void RegisterInventoryBarContainer(ItemSlotButtonContainer inventoryHotbar)
     {
         _inventoryHotbar = inventoryHotbar;
+        _inventoryHotbar.Visible = true;
+
+        // If the player is already attached (loaded before UI), populate immediately
+        if (_playerInventory != null)
+            UpdateInventoryHotbar(_playerInventory);
     }
 
     public void RegisterInventoryButton(SlotButton? button)
