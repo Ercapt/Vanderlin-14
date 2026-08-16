@@ -22,7 +22,11 @@ public sealed class HandsContainer : ItemSlotUIContainer<HandButton>
 
     public HandsContainer()
     {
-        AddChild(_grid = new GridContainer());
+        AddChild(_grid = new GridContainer
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true
+        });
         _grid.ExpandBackwards = true;
     }
 
@@ -40,6 +44,8 @@ public sealed class HandsContainer : ItemSlotUIContainer<HandButton>
         }
 
         _grid.Columns = Math.Min(_grid.ChildCount, ColumnLimit);
+        _grid.InvalidateMeasure();
+        _grid.InvalidateArrange();
     }
 
     protected override void RemoveButton(HandButton button)

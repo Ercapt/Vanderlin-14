@@ -34,9 +34,12 @@ public sealed partial class DefaultGameScreen : InGameScreen
         float indent = TopBar.Size.Y + 40;
         Actions.ActionsContainer.MaxGridHeight = MainViewport.Size.Y - indent;
 
-        // Resize tower HUD width proportional to screen height (160/480 aspect ratio)
+        // Resize tower HUD width and height proportional to screen height (160/480 aspect ratio)
         float towerWidth = MathF.Round(MainViewport.Size.Y * (160f / 480f));
-        RogueHud.SetWidth = towerWidth;
+        var towerSize = new Vector2(towerWidth, MainViewport.Size.Y);
+        RogueHud.SetSize = towerSize;
+        RogueHud.OverlayPanel.SetSize = towerSize;
+        RogueHud.OverlayPanel.RecalculateLayout();
     }
 
     private void ChatOnResizeFinish(Vector2 _)

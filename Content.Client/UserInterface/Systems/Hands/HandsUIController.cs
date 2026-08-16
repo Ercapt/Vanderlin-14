@@ -113,6 +113,19 @@ public sealed partial class HandsUIController : UIController, IOnStateEntered<Ga
         }
     }
 
+    public void ReloadPlayerHands()
+    {
+        if (_handsSystem == null)
+            return;
+
+        if (_handsSystem.TryGetPlayerHands(out var handsComp) && handsComp.HasValue)
+        {
+            ActiveHandContainer?.ClearButtons();
+            _playerHandsComponent = null;
+            LoadPlayerHands(handsComp.Value);
+        }
+    }
+
     private void UnloadPlayerHands()
     {
         HandsGui?.Visible = false;

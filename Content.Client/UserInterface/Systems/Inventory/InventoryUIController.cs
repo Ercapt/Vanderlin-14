@@ -104,10 +104,9 @@ public sealed partial class InventoryUIController : UIController, IOnStateEntere
     {
         _inventoryHotbar = inventoryHotbar;
         _inventoryHotbar.Visible = true;
+        _slotGroups[""] = inventoryHotbar;
 
-        // If the player is already attached (loaded before UI), populate immediately
-        if (_playerInventory != null)
-            UpdateInventoryHotbar(_playerInventory);
+        _inventorySystem?.ReloadInventory();
     }
 
     public void RegisterInventoryButton(SlotButton? button)
@@ -200,9 +199,34 @@ public sealed partial class InventoryUIController : UIController, IOnStateEntere
             }
         }
 
+        _inventoryHotbar.InvalidateMeasure();
+        _inventoryHotbar.InvalidateArrange();
+
+        DumpHotbarState();
+
         int GetIndex(Vector2i position)
         {
             return position.Y * maxWidth + position.X;
+        }
+    }
+
+    private void DumpHotbarState()
+    {
+        if (_inventoryHotbar == null)
+        {
+            Log.Info("[RogueHUD] Hotbar == null");
+            return;
+        }
+
+        Log.Info($"[RogueHUD] Hotbar children: {_inventoryHotbar.ChildCount}, columns: {_inventoryHotbar.Columns}, maxColumns: {_inventoryHotbar.MaxColumns}, size: {_inventoryHotbar.Size}");
+        foreach (var child in _inventoryHotbar.Children)
+        {
+            Log.Info($"[RogueHUD]  - child: {child.Name} type={child.GetType().Name} min={child.MinSize} size={child.Size} visible={child.Visible}");
+        }
+
+        foreach (var (groupName, groupContainer) in _slotGroups)
+        {
+            Log.Info($"[RogueHUD] Group '{groupName}' children: {groupContainer.ChildCount}, size: {groupContainer.Size}");
         }
     }
 
@@ -384,6 +408,8 @@ public sealed partial class InventoryUIController : UIController, IOnStateEntere
 
         var button = CreateSlotButton(data);
         slotGroup.TryAddButton(button);
+        slotGroup.InvalidateMeasure();
+        slotGroup.InvalidateArrange();
     }
 
     private void RemoveSlot(SlotData data)
@@ -459,7 +485,10 @@ public sealed partial class InventoryUIController : UIController, IOnStateEntere
     public bool RegisterSlotGroupContainer(ItemSlotButtonContainer slotContainer)
     {
         if (_slotGroups.TryAdd(slotContainer.SlotGroup, slotContainer))
+        {
+            _inventorySystem?.ReloadInventory();
             return true;
+        }
 
         return false;
     }

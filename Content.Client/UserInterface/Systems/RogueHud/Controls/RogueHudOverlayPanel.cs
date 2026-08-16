@@ -57,6 +57,8 @@ public sealed class RogueHudOverlayPanel : LayoutContainer
 
             SetPosition(child, pos);
             child.SetSize = size;
+            child.InvalidateMeasure();
+            child.InvalidateArrange();
         }
     }
 

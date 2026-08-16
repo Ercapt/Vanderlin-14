@@ -8,7 +8,7 @@
     HorizontalExpand="True"
     VerticalExpand="True">
     
-    <hudControls:RogueHudOverlayPanel Name="OverlayPanel" HorizontalExpand="True" VerticalExpand="True">
+    <hudControls:RogueHudOverlayPanel Name="OverlayPanel" Access="Public" HorizontalExpand="True" VerticalExpand="True">
         <!-- Fullscreen Background Mask Texture (640x480 Stone Frame) -->
         <TextureRect Name="BackgroundTexture" HorizontalExpand="True" VerticalExpand="True" />
 
