@@ -40,20 +40,14 @@ public sealed partial class RogueHudGui : UIWidget
         DollZoneLArm.Stretch = TextureRect.StretchMode.KeepCentered;
         DollZoneRLeg.Stretch = TextureRect.StretchMode.KeepCentered;
         DollZoneLLeg.Stretch = TextureRect.StretchMode.KeepCentered;
-        EyeTexture.Stretch = TextureRect.StretchMode.KeepCentered;
 
-        // Register 1:1 pixel layout rects matching the 160x480 tower frame
-        // Tower vertical zones (virtual 160x480):
-        //   Y=0..125   → Gargoyle doll + targeting buttons
-        //   Y=125..230 → Action buttons (craft, skills, run, sneak, combat etc.)
-        //   Y=230..280 → Active hands (L/R) + Drop/Catch
-        //   Y=280..480 → Equipment slots grid (10 inv + 3 main + 3 second = 16 slots, 3 cols)
-        OverlayPanel.BindToBackground(BackgroundTexture, new Vector2(160, 480));
-        OverlayPanel.SetVirtualRect(BackgroundTexture,         UIBox2.FromDimensions(0,   0,   160, 480));
-        OverlayPanel.SetVirtualRect(DollContainer,             UIBox2.FromDimensions(5,   5,   150, 120));
-        OverlayPanel.SetVirtualRect(ActionButtonsContainer,    UIBox2.FromDimensions(2,   128, 156, 100));
-        OverlayPanel.SetVirtualRect(HandsPanelContainer,       UIBox2.FromDimensions(2,   230, 156, 48));
-        OverlayPanel.SetVirtualRect(EquipmentPanelContainer,   UIBox2.FromDimensions(4,   280, 152, 196));
+        // Bind OverlayPanel to 480x480 frame sockets
+        OverlayPanel.BindToBackground(BackgroundTexture, new Vector2(480, 480));
+        OverlayPanel.SetVirtualRect(BackgroundTexture, UIBox2.FromDimensions(0, 0, 480, 480));
+        OverlayPanel.SetVirtualRect(InventoryPanel, UIBox2.FromDimensions(10, 322, 304, 72));
+        OverlayPanel.SetVirtualRect(LeftPanel, UIBox2.FromDimensions(10, 396, 114, 74));
+        OverlayPanel.SetVirtualRect(CenterPanel, UIBox2.FromDimensions(198, 430, 80, 42));
+        OverlayPanel.SetVirtualRect(RightPanel, UIBox2.FromDimensions(288, 392, 188, 84));
 
         var inventoryUIController = UserInterfaceManager.GetUIController<InventoryUIController>();
         inventoryUIController.RegisterInventoryBarContainer(InventoryHotbar);
@@ -72,9 +66,9 @@ public sealed partial class RogueHudGui : UIWidget
         InitializeTargetButtonOpacities();
         InitializeTextures();
         SetupTargetingDollEvents();
+        SetupInventoryToggle();
 
         BtnCombatToggle.OnPressed += _ => OnCombatTogglePressed?.Invoke();
-        BtnDrop.OnPressed += _ => OnDropPressed?.Invoke();
     }
 
     protected override void Resized()
@@ -98,14 +92,14 @@ public sealed partial class RogueHudGui : UIWidget
     {
         try
         {
-            // Background Tower Frame (human state) — 160x480 tower only
-            if (_resCache.TryGetResource<RSIResource>(new ResPath("/Textures/Interface/RogueHud/roguehudtower.rsi"), out var backRsi))
-            {
-                if (backRsi.RSI.TryGetState("human", out var humanState))
-                {
-                    BackgroundTexture.Texture = humanState.Frame0;
-                }
-            }
+            if (_resCache.TryGetResource<TextureResource>(new ResPath("/Textures/Interface/RogueHud/left_side.png"), out var leftTex))
+                LeftPanelTexture.Texture = leftTex.Texture;
+
+            if (_resCache.TryGetResource<TextureResource>(new ResPath("/Textures/Interface/RogueHud/centr.png"), out var centerTex))
+                CenterPanelTexture.Texture = centerTex.Texture;
+
+            if (_resCache.TryGetResource<TextureResource>(new ResPath("/Textures/Interface/RogueHud/right_side.png"), out var rightTex))
+                RightPanelTexture.Texture = rightTex.Texture;
 
             // Gargoyle Base Doll
             if (_resCache.TryGetResource<RSIResource>(new ResPath("/Textures/Interface/RogueHud/roguehud64.rsi"), out var dollRsi))
@@ -121,26 +115,6 @@ public sealed partial class RogueHudGui : UIWidget
                 if (dollRsi.RSI.TryGetState("m-l_arm", out var lArmState)) DollZoneLArm.Texture = lArmState.Frame0;
                 if (dollRsi.RSI.TryGetState("m-r_leg", out var rLegState)) DollZoneRLeg.Texture = rLegState.Frame0;
                 if (dollRsi.RSI.TryGetState("m-l_leg", out var lLegState)) DollZoneLLeg.Texture = lLegState.Frame0;
-            }
-
-            // Buttons & Controls textures
-            if (_resCache.TryGetResource<RSIResource>(new ResPath("/Textures/Interface/RogueHud/roguehud.rsi"), out var hudRsi))
-            {
-                SetTextureIfAvailable(hudRsi, "eye", tex => EyeTexture.Texture = tex);
-                SetTextureIfAvailable(hudRsi, "combat0", tex => BtnCombatToggle.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "craft", tex => BtnCraft.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "skills", tex => BtnSkills.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "sprint0", tex => BtnRun.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "sneak0", tex => BtnSneak.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "def1", tex => BtnParry.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "def2", tex => BtnDodge.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "rmbfeint", tex => BtnFeint.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "intouch", tex => BtnTouch.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "inshove", tex => BtnShove.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "ingrab", tex => BtnGrab.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "inpunch", tex => BtnPunch.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "act_drop", tex => BtnDrop.TextureNormal = tex);
-                SetTextureIfAvailable(hudRsi, "catch0", tex => BtnCatch.TextureNormal = tex);
             }
         }
         catch (Exception e)
@@ -185,13 +159,42 @@ public sealed partial class RogueHudGui : UIWidget
 
     public void UpdateCombatModeState(bool inCombat)
     {
-        if (!_resCache.TryGetResource<RSIResource>(new ResPath("/Textures/Interface/RogueHud/roguehud.rsi"), out var hudRsi))
-            return;
+        BtnCombatToggle.Modulate = inCombat ? Color.Red : Color.White;
+    }
 
-        var stateName = inCombat ? "combat1" : "combat0";
-        if (hudRsi.RSI.TryGetState(stateName, out var combatState))
+    private bool _isInventoryOpen = true;
+
+    private void SetupInventoryToggle()
+    {
+        ToggleInventoryButton.OnPressed += _ =>
         {
-            BtnCombatToggle.TextureNormal = combatState.Frame0;
+            _isInventoryOpen = !_isInventoryOpen;
+            UpdateInventoryState();
+        };
+
+        UpdateInventoryState();
+    }
+
+    private void UpdateInventoryState()
+    {
+        var framePath = _isInventoryOpen
+            ? "/Textures/Interface/RogueHud/alive.png"
+            : "/Textures/Interface/RogueHud/alive2.png";
+
+        var panelPath = _isInventoryOpen
+            ? "/Textures/Interface/RogueHud/inventory.png"
+            : "/Textures/Interface/RogueHud/inventory_closed.png";
+
+        if (_resCache.TryGetResource<TextureResource>(new ResPath(framePath), out var frameTex))
+        {
+            BackgroundTexture.Texture = frameTex.Texture;
         }
+
+        if (_resCache.TryGetResource<TextureResource>(new ResPath(panelPath), out var panelTex))
+        {
+            InventoryPanelTexture.Texture = panelTex.Texture;
+        }
+
+        EquipmentPanelContainer.Visible = _isInventoryOpen;
     }
 }

@@ -1,0 +1,409 @@
+{
+    "version": 1,
+    "license": null,
+    "copyright": null,
+    "size": {
+        "x": 64,
+        "y": 64
+    },
+    "states": [
+        {
+            "name": "heat100",
+            "delays": [
+                [
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "heat90"
+        },
+        {
+            "name": "heat80"
+        },
+        {
+            "name": "heat70"
+        },
+        {
+            "name": "heat60"
+        },
+        {
+            "name": "heat50"
+        },
+        {
+            "name": "heat40"
+        },
+        {
+            "name": "heat30"
+        },
+        {
+            "name": "heat20"
+        },
+        {
+            "name": "heat10"
+        },
+        {
+            "name": "heatstamover",
+            "delays": [
+                [
+                    30,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "od"
+        },
+        {
+            "name": "od"
+        },
+        {
+            "name": "od"
+        },
+        {
+            "name": "od"
+        },
+        {
+            "name": "od"
+        },
+        {
+            "name": "od"
+        },
+        {
+            "name": "od"
+        },
+        {
+            "name": "od"
+        },
+        {
+            "name": "od",
+            "delays": [
+                [
+                    1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "od",
+            "delays": [
+                [
+                    1,
+                    0.1,
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "fat100",
+            "delays": [
+                [
+                    0.1,
+                    0.1,
+                    10
+                ]
+            ]
+        },
+        {
+            "name": "fat90"
+        },
+        {
+            "name": "fat80"
+        },
+        {
+            "name": "fat70"
+        },
+        {
+            "name": "fat60"
+        },
+        {
+            "name": "fat50"
+        },
+        {
+            "name": "fat40"
+        },
+        {
+            "name": "fat30"
+        },
+        {
+            "name": "fat20",
+            "delays": [
+                [
+                    0.3,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "fat10",
+            "delays": [
+                [
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "damelse",
+            "delays": [
+                [
+                    1,
+                    0.1,
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "stam100",
+            "delays": [
+                [
+                    4,
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "stam90"
+        },
+        {
+            "name": "stam80"
+        },
+        {
+            "name": "stam70"
+        },
+        {
+            "name": "stam60"
+        },
+        {
+            "name": "stam50"
+        },
+        {
+            "name": "stam40"
+        },
+        {
+            "name": "stam30"
+        },
+        {
+            "name": "stam20",
+            "delays": [
+                [
+                    0.8,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "stam10",
+            "delays": [
+                [
+                    0.3,
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "manaover",
+            "delays": [
+                [
+                    30,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "mana120",
+            "delays": [
+                [
+                    0.4,
+                    0.4
+                ]
+            ]
+        },
+        {
+            "name": "mana100",
+            "delays": [
+                [
+                    4,
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "mana90"
+        },
+        {
+            "name": "mana80"
+        },
+        {
+            "name": "mana70"
+        },
+        {
+            "name": "mana60"
+        },
+        {
+            "name": "mana50"
+        },
+        {
+            "name": "mana40"
+        },
+        {
+            "name": "mana30"
+        },
+        {
+            "name": "mana20",
+            "delays": [
+                [
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "mana10",
+            "delays": [
+                [
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "mana_bg"
+        },
+        {
+            "name": "mana_fill",
+            "delays": [
+                [
+                    0.4,
+                    0.4,
+                    0.4,
+                    0.4,
+                    0.4,
+                    0.4
+                ]
+            ]
+        },
+        {
+            "name": "mana_mask",
+            "delays": [
+                [
+                    30,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "mana_fg",
+            "delays": [
+                [
+                    30,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "dam0"
+        },
+        {
+            "name": "dam10"
+        },
+        {
+            "name": "dam20"
+        },
+        {
+            "name": "dam30"
+        },
+        {
+            "name": "dam40"
+        },
+        {
+            "name": "dam50"
+        },
+        {
+            "name": "dam60"
+        },
+        {
+            "name": "dam70",
+            "delays": [
+                [
+                    1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "dam80",
+            "delays": [
+                [
+                    1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "toxloss100"
+        },
+        {
+            "name": "toxloss80"
+        },
+        {
+            "name": "toxloss60"
+        },
+        {
+            "name": "toxloss40"
+        },
+        {
+            "name": "toxloss20"
+        },
+        {
+            "name": "oxyloss80"
+        },
+        {
+            "name": "oxyloss60"
+        },
+        {
+            "name": "oxyloss40"
+        },
+        {
+            "name": "oxyloss20"
+        },
+        {
+            "name": "oxyloss100"
+        },
+        {
+            "name": "painloss80"
+        },
+        {
+            "name": "painloss60"
+        },
+        {
+            "name": "painloss40"
+        },
+        {
+            "name": "painloss20"
+        },
+        {
+            "name": "painloss100",
+            "delays": [
+                [
+                    0.5,
+                    0.5
+                ]
+            ]
+        }
+    ]
+}

@@ -40,20 +40,25 @@ public sealed class RogueHudOverlayPanel : LayoutContainer
         if (VirtualSize.X <= 0 || VirtualSize.Y <= 0)
             return;
 
+        var screenW = Size.X;
         var screenH = Size.Y;
-        if (screenH <= 0)
+        Logger.Info($"[OverlayPanel] RecalculateLayout called. Panel.Size={Size}, VirtualSize={VirtualSize}");
+        if (screenH <= 0 || screenW <= 0)
+        {
+            Logger.Info("[OverlayPanel] Size <= 0 — skipping layout pass.");
             return;
+        }
 
-        // Scale uniformly based on screen height (tower fills full height, anchored left)
-        float scale = screenH / VirtualSize.Y;
+        float scaleX = screenW / VirtualSize.X;
+        float scaleY = screenH / VirtualSize.Y;
 
         foreach (var (child, vr) in _virtualRects)
         {
             if (child.Parent != this)
                 continue;
 
-            var pos = new Vector2(vr.Left * scale, vr.Top * scale);
-            var size = new Vector2(vr.Width * scale, vr.Height * scale);
+            var pos = new Vector2(vr.Left * scaleX, vr.Top * scaleY);
+            var size = new Vector2(vr.Width * scaleX, vr.Height * scaleY);
 
             SetPosition(child, pos);
             child.SetSize = size;
