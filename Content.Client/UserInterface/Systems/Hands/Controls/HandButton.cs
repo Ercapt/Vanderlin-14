@@ -1,5 +1,7 @@
-﻿using Content.Client.UserInterface.Controls;
+using System.Numerics;
+using Content.Client.UserInterface.Controls;
 using Content.Shared.Hands.Components;
+using Robust.Client.UserInterface.Controls;
 
 namespace Content.Client.UserInterface.Systems.Hands.Controls;
 
@@ -13,6 +15,9 @@ public sealed class HandButton : SlotControl
         Name = "hand_" + handName;
         SlotName = handName;
         SetBackground(handLocation);
+        HighlightTexturePath = "Slots/hand_active";
+        HighlightRect.Stretch = TextureRect.StretchMode.Scale;
+        HighlightRect.SetSize = new Vector2(64, 64);
     }
 
     private void SetBackground(HandLocation handLoc)

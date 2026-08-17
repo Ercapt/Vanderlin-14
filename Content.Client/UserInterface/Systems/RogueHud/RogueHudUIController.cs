@@ -1,9 +1,13 @@
+using Content.Client.Actions;
 using Content.Client.CombatMode;
 using Content.Client.Gameplay;
 using Content.Client.Hands.Systems;
 using Content.Client.UserInterface.Systems.Gameplay;
 using Content.Client.UserInterface.Systems.Inventory;
 using Content.Client.UserInterface.Systems.RogueHud.Widgets;
+using Content.Shared.Actions;
+using Content.Shared.Actions.Components;
+using Content.Shared.CombatMode;
 using Robust.Client.Player;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controllers;
@@ -12,12 +16,13 @@ using Robust.Shared.Player;
 namespace Content.Client.UserInterface.Systems.RogueHud;
 
 public sealed partial class RogueHudUIController : UIController, IOnStateEntered<GameplayState>, IOnStateExited<GameplayState>,
-    IOnSystemChanged<CombatModeSystem>, IOnSystemChanged<HandsSystem>
+    IOnSystemChanged<CombatModeSystem>, IOnSystemChanged<HandsSystem>, IOnSystemChanged<ActionsSystem>
 {
     [Dependency] private IPlayerManager _player = default!;
 
     [UISystemDependency] private readonly CombatModeSystem _combatMode = default!;
     [UISystemDependency] private readonly HandsSystem _handsSystem = default!;
+    [UISystemDependency] private readonly ActionsSystem _actionsSystem = default!;
 
     private RogueHudGui? RogueHud => UIManager.GetActiveUIWidgetOrNull<RogueHudGui>();
 
@@ -74,6 +79,14 @@ public sealed partial class RogueHudUIController : UIController, IOnStateEntered
     {
     }
 
+    public void OnSystemLoaded(ActionsSystem system)
+    {
+    }
+
+    public void OnSystemUnloaded(ActionsSystem system)
+    {
+    }
+
     private void OnCombatModeUpdated(bool inCombat)
     {
         RogueHud?.UpdateCombatModeState(inCombat);
@@ -81,9 +94,16 @@ public sealed partial class RogueHudUIController : UIController, IOnStateEntered
 
     private void ToggleCombatMode()
     {
-        if (_player.LocalEntity is { } localPlayer)
+        if (_player.LocalEntity is { } localPlayer &&
+            EntityManager.TryGetComponent<CombatModeComponent>(localPlayer, out var combatComp) &&
+            combatComp.CombatToggleActionEntity is { } actionEnt &&
+            EntityManager.TryGetComponent<ActionComponent>(actionEnt, out var actionComp))
         {
-            _combatMode.SetInCombatMode(localPlayer, !_combatMode.IsInCombatMode(localPlayer));
+            _actionsSystem.TriggerAction((actionEnt, actionComp));
+        }
+        else if (_player.LocalEntity is { } entity)
+        {
+            _combatMode.SetInCombatMode(entity, !_combatMode.IsInCombatMode(entity));
         }
     }
 

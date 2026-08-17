@@ -8,63 +8,67 @@
     HorizontalExpand="True"
     VerticalExpand="True">
     
-    <hudControls:RogueHudOverlayPanel Name="OverlayPanel" Access="Public" HorizontalExpand="True" VerticalExpand="True">
+    <LayoutContainer Name="ModularHudContainer" HorizontalExpand="True" VerticalExpand="True">
         <!-- 1. Outer Screen Scaling Frame (alive.png / alive2.png) -->
-        <TextureRect Name="BackgroundTexture" HorizontalExpand="True" VerticalExpand="True" />
+        <TextureRect Name="BackgroundTexture" HorizontalExpand="True" VerticalExpand="True" Stretch="Scale" />
 
-        <!-- 2. Bottom-Left Action Buttons Panel (left_side.png 108x70) -->
-        <Control Name="LeftPanel">
-            <TextureRect Name="LeftPanelTexture" HorizontalExpand="True" VerticalExpand="True" Stretch="Scale" />
-            <Button Name="BtnCraft" ToolTip="Craft" SetSize="46 22" Margin="4 30 0 0" StyleClasses="transparent" />
-            <Button Name="BtnSkills" ToolTip="Skills" SetSize="46 22" Margin="4 50 0 0" StyleClasses="transparent" />
-            <Button Name="BtnRun" ToolTip="Run" SetSize="50 18" Margin="54 2 0 0" StyleClasses="transparent" />
-            <Button Name="BtnSneak" ToolTip="Sneak" SetSize="50 22" Margin="54 50 0 0" StyleClasses="transparent" />
-            <Button Name="BtnCombatToggle" ToolTip="Combat Mode" SetSize="42 42" Margin="68 28 0 0" StyleClasses="transparent" />
+        <!-- 2. Bottom-Left Action Buttons Panel (left_side.png 108x70 scaled 2.0x to 216x140) -->
+        <Control Name="LeftPanel" SetSize="216 140">
+            <TextureRect Name="LeftPanelTexture" SetSize="216 140" Stretch="Scale" />
+            <!-- Transparent buttons scaled 2.0x from 108x70 raw art -->
+            <Button Name="BtnCraft"        ToolTip="Craft"       SetSize="88 40" Margin="8   56 0 0" StyleClasses="transparent" />
+            <Button Name="BtnSkills"       ToolTip="Skills"      SetSize="88 40" Margin="8   96 0 0" StyleClasses="transparent" />
+            <Button Name="BtnRun"          ToolTip="Run"         SetSize="96 32" Margin="104   4 0 0" StyleClasses="transparent" />
+            <Button Name="BtnSneak"        ToolTip="Sneak"       SetSize="96 40" Margin="104  96 0 0" StyleClasses="transparent" />
+            <Button Name="BtnCombatToggle" ToolTip="Combat Mode" SetSize="80 80" Margin="132  52 0 0" StyleClasses="transparent" />
+            <!-- Combat mode animated overlay (+5% larger to 72x72 at 136 56 0 0, 100% matching background frame size) -->
+            <TextureRect Name="CombatStateTexture" SetSize="72 72" Margin="136 56 0 0" Stretch="Scale" MouseFilter="Ignore" Visible="False" />
         </Control>
 
-        <!-- 3. Bottom-Center Active Hands Panel (centr.png 73x38) -->
-        <Control Name="CenterPanel">
-            <TextureRect Name="CenterPanelTexture" HorizontalExpand="True" VerticalExpand="True" Stretch="Scale" />
-            <hands:HandsContainer Name="HandContainer" Access="Public" ColumnLimit="2" SetSize="74 38" Margin="2 2 0 0" />
+        <!-- 3. Bottom-Center Active Hands Panel (centr.png 73x38 scaled 2.0x to 146x76) -->
+        <Control Name="CenterPanel" SetSize="146 76">
+            <TextureRect Name="CenterPanelTexture" SetSize="146 76" Stretch="Scale" />
+            <!-- HandsContainer: Margin="6 6 0 0" centers R and L slots evenly between left and right stone borders -->
+            <hands:HandsContainer Name="HandContainer" Access="Public" ColumnLimit="2" Margin="6 6 0 0" />
         </Control>
 
-        <!-- 4. Bottom-Right Gargoyle & Stats Panel (right_side.png 180x81) -->
-        <Control Name="RightPanel">
-            <TextureRect Name="RightPanelTexture" HorizontalExpand="True" VerticalExpand="True" Stretch="Scale" />
+        <!-- 4. Bottom-Right Gargoyle & Stats Panel (right_side.png 180x81 scaled 2.0x to 360x162) -->
+        <Control Name="RightPanel" SetSize="360 162">
+            <TextureRect Name="RightPanelTexture" SetSize="360 162" Stretch="Scale" />
             
-            <!-- Gargoyle Doll Inside Right Arch (56x74) -->
-            <Control Name="DollContainer" SetSize="58 76" Margin="124 4 0 0">
-                <TextureRect Name="DollBaseTexture" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextureRect Name="DollZoneHead" Visible="False" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextureRect Name="DollZoneChest" Visible="False" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextureRect Name="DollZoneRArm" Visible="False" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextureRect Name="DollZoneLArm" Visible="False" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextureRect Name="DollZoneRLeg" Visible="False" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                <TextureRect Name="DollZoneLLeg" Visible="False" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <!-- Gargoyle Doll - fills arch in right_side.png -->
+            <Control Name="DollContainer" SetSize="156 156" Margin="198 3 0 0">
+                <TextureRect Name="DollBaseTexture"  SetSize="156 156" Stretch="Scale" />
+                <TextureRect Name="DollZoneHead"     SetSize="156 156" Stretch="Scale" Visible="False" />
+                <TextureRect Name="DollZoneChest"    SetSize="156 156" Stretch="Scale" Visible="False" />
+                <TextureRect Name="DollZoneRArm"     SetSize="156 156" Stretch="Scale" Visible="False" />
+                <TextureRect Name="DollZoneLArm"     SetSize="156 156" Stretch="Scale" Visible="False" />
+                <TextureRect Name="DollZoneRLeg"     SetSize="156 156" Stretch="Scale" Visible="False" />
+                <TextureRect Name="DollZoneLLeg"     SetSize="156 156" Stretch="Scale" Visible="False" />
 
-                <!-- Transparent Click Targets for Body Zones -->
-                <Button Name="BtnTargetHead" ToolTip="Head" SetSize="32 20" Margin="13 2 0 0" StyleClasses="transparent" />
-                <Button Name="BtnTargetChest" ToolTip="Chest" SetSize="28 24" Margin="15 20 0 0" StyleClasses="transparent" />
-                <Button Name="BtnTargetRArm" ToolTip="Right Arm" SetSize="14 24" Margin="2 20 0 0" StyleClasses="transparent" />
-                <Button Name="BtnTargetLArm" ToolTip="Left Arm" SetSize="14 24" Margin="42 20 0 0" StyleClasses="transparent" />
-                <Button Name="BtnTargetRLeg" ToolTip="Right Leg" SetSize="16 28" Margin="12 44 0 0" StyleClasses="transparent" />
-                <Button Name="BtnTargetLLeg" ToolTip="Left Leg" SetSize="16 28" Margin="28 44 0 0" StyleClasses="transparent" />
+                <!-- Transparent click targets for body zone selection -->
+                <Button Name="BtnTargetHead"  ToolTip="Head"      SetSize="84 50"  Margin="36   6 0 0" StyleClasses="transparent" />
+                <Button Name="BtnTargetChest" ToolTip="Chest"     SetSize="72 60"  Margin="42  56 0 0" StyleClasses="transparent" />
+                <Button Name="BtnTargetRArm"  ToolTip="Right Arm" SetSize="34 60"  Margin="6   56 0 0" StyleClasses="transparent" />
+                <Button Name="BtnTargetLArm"  ToolTip="Left Arm"  SetSize="34 60"  Margin="116 56 0 0" StyleClasses="transparent" />
+                <Button Name="BtnTargetRLeg"  ToolTip="Right Leg" SetSize="38 72"  Margin="34 116 0 0" StyleClasses="transparent" />
+                <Button Name="BtnTargetLLeg"  ToolTip="Left Leg"  SetSize="38 72"  Margin="78 116 0 0" StyleClasses="transparent" />
             </Control>
         </Control>
 
-        <!-- 5. Inventory Shelf Panel (inventory.png / inventory_closed.png 298x70) -->
-        <Control Name="InventoryPanel">
-            <TextureRect Name="InventoryPanelTexture" HorizontalExpand="True" VerticalExpand="True" Stretch="Scale" />
+        <!-- 5. Inventory Shelf Panel -->
+        <Control Name="InventoryPanel" MouseFilter="Pass">
+            <TextureRect Name="InventoryPanelTexture" SetSize="596 140" Stretch="Scale" />
 
-            <!-- Equipment & Hotbar Slots Grid (2 rows x 8 columns) -->
-            <BoxContainer Name="EquipmentPanelContainer" Orientation="Vertical" SetSize="276 68" Margin="4 2 0 0">
+            <!-- Equipment & Hotbar Slots Grid -->
+            <BoxContainer Name="EquipmentPanelContainer" Orientation="Vertical" Margin="8 8 0 0">
                 <inventory:ItemSlotButtonContainer Name="InventoryHotbar" Access="Public" Visible="True" Columns="8" HorizontalAlignment="Left" />
-                <inventory:ItemSlotButtonContainer Name="MainHotbar" Access="Public" Visible="True" SlotGroup="MainHotbar" Columns="3" HorizontalAlignment="Left" Margin="0 2 0 0" />
-                <inventory:ItemSlotButtonContainer Name="SecondHotbar" Access="Public" Visible="True" SlotGroup="SecondHotbar" Columns="3" HorizontalAlignment="Left" Margin="0 2 0 0" />
+                <inventory:ItemSlotButtonContainer Name="MainHotbar"      Access="Public" Visible="True" SlotGroup="MainHotbar"   Columns="3" HorizontalAlignment="Left" Margin="0 2 0 0" />
+                <inventory:ItemSlotButtonContainer Name="SecondHotbar"    Access="Public" Visible="True" SlotGroup="SecondHotbar" Columns="3" HorizontalAlignment="Left" Margin="0 2 0 0" />
             </BoxContainer>
-
-            <!-- Toggle Arrow Button on Shelf Edge (20x66) -->
-            <TextureButton Name="ToggleInventoryButton" ToolTip="Toggle Inventory Shelf" SetSize="22 68" Margin="280 2 0 0" />
         </Control>
-    </hudControls:RogueHudOverlayPanel>
+
+        <!-- 6. Toggle Arrow Button — direct child of LayoutContainer -->
+        <Button Name="ToggleInventoryButton" ToolTip="Toggle Inventory Shelf" SetSize="40 130" StyleClasses="transparent" />
+    </LayoutContainer>
 </widgets:RogueHudGui>
