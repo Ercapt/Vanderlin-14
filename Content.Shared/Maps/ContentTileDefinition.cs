@@ -104,6 +104,11 @@ public sealed partial class ContentTileDefinition : IPrototype, IInheritingProto
     [DataField("isSpace")] public bool MapAtmosphere { get; private set; }
 
     /// <summary>
+    /// Whether or not the tile is transparent / an opening for Z-levels.
+    /// </summary>
+    [DataField] public bool Transparent { get; private set; }
+
+    /// <summary>
     /// Friction override for mob mover in <see cref="SharedMoverController"/>
     /// </summary>
     [DataField]
