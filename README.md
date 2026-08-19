@@ -24,7 +24,7 @@ Vanderlin 14 - це новий досвід пригод у світі сере�
 
 1. Клонуйте репризиторій:
 ```shell
-git clone https://github.com/space-wizards/space-station-14.git
+git clone https://github.com/Ercapt/Vanderlin-14.git
 ```
 2. Відкрийте теку проєкту та запустіть `RUN_THIS.py` щоб ініціалізувати підмодулі та завантажити рушій:
 ```shell
