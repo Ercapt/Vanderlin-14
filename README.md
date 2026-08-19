@@ -35,4 +35,4 @@ python RUN_THIS.py
 
 Зберіть проєкт завдяки `dotnet build`.
 
-[Більш детальну інструкцію можете прочитати на офіційному порталі розробників.](https://docs.spacestation14.com/en/general-development/setup.html)
+Більш детальну інструкцію можете прочитати на [офіційному порталі розробників.](https://docs.spacestation14.com/en/general-development/setup.html)
