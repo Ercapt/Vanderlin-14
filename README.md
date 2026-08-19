@@ -36,3 +36,9 @@ python RUN_THIS.py
 Зберіть проєкт завдяки `dotnet build`.
 
 Більш детальну інструкцію можете прочитати на [офіційному порталі розробників.](https://docs.spacestation14.com/en/general-development/setup.html)
+
+## Ліцензія
+
+Код, успадкований від Space Station 14, поширюється відповідно до умов [MIT](https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT).
+Власний код та зміни, розроблені для Vanderlin 14, поширюються під [AGPL-3.0](https://github.com/Ercapt/Vanderlin-14/blob/master/LICENSE.TXT), якщо для конкретного файлу або компонента не зазначено інше.
+Портовані з оригінального Vanderlin текстури та звукові ресурси поширюються під [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), якщо для конкретного ресурсу не зазначено інше.
