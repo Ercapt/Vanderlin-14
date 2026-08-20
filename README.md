@@ -44,3 +44,5 @@ python RUN_THIS.py
 Власний код та зміни, розроблені для Vanderlin 14, поширюються під [AGPL-3.0](https://github.com/Ercapt/Vanderlin-14/blob/master/LICENSE.TXT), якщо для конкретного файлу або компонента не зазначено інше.
 
 Портовані з оригінального Vanderlin текстури та звукові ресурси поширюються під [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), якщо для конкретного ресурсу не зазначено інше.
+
+Частина коду була портована та/або адаптована з CMU. Портований код, що походить із цього проєкту, поширюється відповідно до [GNU Affero General Public License v3.0 (AGPL-3.0)](https://github.com/AU-14/ColonialMarinesUniverse/blob/2317d6bb116d52854b636643986d7f40d404142a/LICENSE).
